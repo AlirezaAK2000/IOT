@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-06/schema#",
+
+  "title": "Agent",
+  "type": "object",
+  "properties": {
+    "id": {
+      "description": "agent identification",
+      "type": "string"
+    },
+    "actions": {
+      "description": "array of actions that agent can do",
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "things": {
+      "description": "array of agent attached things",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          }
+        },
+        "required": ["type", "id"]
+      }
+    }
+  },
+  "required": ["id", "things"]
+}

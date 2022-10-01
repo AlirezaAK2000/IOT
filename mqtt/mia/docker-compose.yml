@@ -1,0 +1,41 @@
+version: '3.7'
+services:
+  mongodb:
+    image: mongo:5.0
+    ports:
+      - 27017:27017
+    networks:
+      - shared-net
+
+  emqx:
+    image: emqx/emqx:5.0.0
+    ports:
+      - 1883:1883
+      - 18083:18083
+    
+    networks:
+      - shared-net
+    
+
+  mia:
+    build:
+      context: .
+    ports:
+      - 8080:8080
+
+    environment:
+      - "MIA_MQTT__HOST=emqx"
+      - "MIA_DATABASE__CONFIG__HOST=mongodb://mongodb"
+      - "MIA_DATABASE__CONFIG__PORT=27017"
+      - "MIA_DATABASE__NAME=mongodb"
+      - "MIA_DATABASE__CONFIG__DATABASE=mia"
+    depends_on:
+      - mongodb
+      - emqx
+    networks:
+      - shared-net
+    
+  
+networks:
+  shared-net:
+    driver: bridge
